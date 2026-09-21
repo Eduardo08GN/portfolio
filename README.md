@@ -12,11 +12,37 @@ levado ao nível de vitrine pública.
 index.html      a página inteira — HTML, CSS e JS num arquivo só, sem build
 assets/         o mark da marca (webp servido; png é o master do upscale 4×)
 p/              as capas (poster de cada vídeo, 540 px de largura, JPEG)
-v/              os doze mp4 na versão de web
 Dockerfile      nginx alpine servindo estático
-nginx.conf      faixas de bytes, cache e gzip
+nginx.conf      cache e gzip
+subir-r2.py     sobe os mp4 para o bucket e reaponta a página
 _manifesto.json o que foi medido de cada vídeo (duração, dimensão, tamanho)
 ```
+
+## Onde ficam os vídeos
+
+**Não neste repositório.** Os doze mp4 moram no bucket R2 `portfolioow` e são
+servidos direto de `https://pub-a64ff07a02a446df8b492d42e886c18b.r2.dev/v/`.
+O repositório carrega só a página, o logotipo e as doze capas — cerca de 1 MB.
+
+As capas ficaram aqui de propósito: são 600 KB no total e é o que faz a grade
+pintar junto com o HTML, na mesma conexão. Mandá-las para o bucket trocaria isso
+por doze viagens a um segundo domínio, sem ganho nenhum.
+
+Para trocar ou acrescentar vídeo:
+
+```bash
+# ponha os mp4 novos numa pasta v/ aqui do lado, entao:
+set R2_ACCESS_KEY_ID=...
+set R2_SECRET_ACCESS_KEY=...
+python subir-r2.py --base https://pub-a64ff07a02a446df8b492d42e886c18b.r2.dev --prefixo v/
+```
+
+O script confere por HEAD que o tamanho no bucket bate com o do arquivo local
+antes de reescrever a página — e só apaga o `v/` local se essa conferência passar.
+
+⚠️ O endereço `...r2.cloudflarestorage.com/portfolioow` é o endpoint **autenticado**
+da API S3; ele devolve 401 para quem abrir a página. O endereço público é o
+`pub-....r2.dev` acima (ou um domínio personalizado, se um dia for ligado).
 
 ## Decisões que não são óbvias
 
@@ -57,6 +83,8 @@ Com a barra de posição em foco: `←` `→` andam 5 s, `PageUp`/`PageDown` 10 
 ```bash
 python -m http.server 8765
 ```
+
+Os vídeos vêm do R2 nos dois casos, então rodar local não exige o bucket montado.
 
 Ou como vai para o ar:
 

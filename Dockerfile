@@ -6,7 +6,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY index.html /usr/share/nginx/html/index.html
 COPY assets/    /usr/share/nginx/html/assets/
 COPY p/         /usr/share/nginx/html/p/
-COPY v/         /usr/share/nginx/html/v/
+# os mp4 NAO entram na imagem: moram no bucket R2 `portfolioow` e sao servidos
+# direto de la'. Ver README > Onde ficam os videos.
 
 EXPOSE 80
 

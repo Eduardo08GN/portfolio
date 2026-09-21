@@ -1,0 +1,4 @@
+# ⛔ nenhuma credencial do R2 entra aqui: o token vive fora do repositorio
+.r2*
+*.env
+v/
