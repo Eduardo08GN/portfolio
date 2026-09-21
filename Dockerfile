@@ -1,4 +1,5 @@
-# Portfolio do Organic Wave Studio: pagina estatica + 12 mp4 servidos por nginx.
+# Portfolio do Organic Wave Studio: a pagina, o logotipo e as 12 capas.
+# Os 12 mp4 NAO entram aqui (ver abaixo) — a imagem fica em ~1 MB.
 # Nao ha build: o que esta no repositorio e' exatamente o que vai para o ar.
 FROM nginx:1.27-alpine
 
