@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organic Wave Studio</title>
+<meta name="description" content="Doze peças de vídeo vertical geradas do zero pelo Organic Wave Studio. Nenhuma delas foi filmada.">
+<meta name="theme-color" content="#060E0D">
+<link rel="icon" href="assets/logo-ow.webp" type="image/webp">
+<meta property="og:title" content="Organic Wave Studio">
+<meta property="og:description" content="Doze peças de vídeo vertical geradas do zero. Nenhuma delas foi filmada.">
+<meta property="og:image" content="p/l05-aqpwrl-wdbca7xtm8vrc1ik-fiw00e-y2wkzm7fa-3.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* ──────────────────────────────────────────────────────────────────────────
+   Organic Wave Studio — sala de projeção.
+   Tema ÚNICO escuro, de propósito: o mark da marca tem o W em creme (#F0EDE2)
+   e some em qualquer fundo claro. Pôr um disco escuro atrás dele "para o W
+   aparecer" já foi tentado no template da ferramenta e só sujou o cabeçalho.
+   Então a página inteira commita no escuro e pinta todas as cores na mão.
+   ────────────────────────────────────────────────────────────────────────── */
+:root{
+  --breu:#060E0D;        /* chão */
+  --fosso:#030807;       /* poço do vídeo, mais fundo que o chão */
+  --painel:#0E1B1A;      /* superfície do cartão */
+  --painel-alto:#132322; /* o mesmo cartão sob o cursor */
+  --linha:#1C2E2C;
+  --linha-viva:#2C4643;
+  --creme:#F0EDE2;       /* amostrado do W do logotipo */
+  --mudo:#8FA9A6;
+  --mudo-fraco:#7E9B98;
+  --onda:#5FD6CE;        /* a turquesa da onda */
+  --onda-fundo:rgba(95,214,206,.12);
+  --areia:#D2A96A;       /* o anel dourado do mark */
+  --som:cubic-bezier(.22,.61,.36,1);
+  --z-barra:10; --z-capa:20; --z-topo:30;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{ -webkit-text-size-adjust:100% }
+body{
+  margin:0; background:var(--breu); color:var(--creme);
+  font-family:"Public Sans",ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;
+  font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img,video{display:block; max-width:100%}
+button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer}
+:focus-visible{outline:2px solid var(--onda); outline-offset:3px; border-radius:2px}
+
+.env{max-width:1180px; margin-inline:auto; padding-inline:16px}
+
+/* ── cabeçalho ─────────────────────────────────────────────────────────── */
+.topo{position:relative; padding-block:clamp(48px,9vw,104px) clamp(36px,6vw,64px); overflow:hidden}
+/* halo por trás do mark: o anel do logotipo é dourado e a onda turquesa —
+   o brilho repete as duas, bem de leve, e some antes de chegar nas bordas. */
+.halo{
+  position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(38% 46% at 20% 34%, rgba(95,214,206,.16), transparent 68%),
+    radial-gradient(26% 34% at 30% 30%, rgba(210,169,106,.14), transparent 70%);
+}
+.marca{position:relative; display:flex; align-items:center; gap:clamp(18px,3.4vw,40px); flex-wrap:wrap}
+.mark{width:clamp(176px,25vw,330px); height:auto; flex:none}
+.dizeres{min-width:min(100%,340px); flex:1}
+.etiqueta{
+  font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,monospace;
+  font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--onda);
+  margin:0 0 14px;
+}
+h1{
+  font-family:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  font-weight:800; font-size:clamp(34px,5.6vw,60px); line-height:1.02;
+  letter-spacing:-.028em; margin:0; text-wrap:balance;
+}
+h1 em{font-style:normal; color:var(--onda)}
+.linha-fina{color:var(--mudo); margin:18px 0 0; max-width:54ch; font-size:clamp(15px,1.5vw,17px)}
+
+/* trilho de dados — os números que interessam, em mono, com um fio por cima */
+.trilho{
+  display:flex; flex-wrap:wrap; gap:0; margin:clamp(30px,5vw,46px) 0 0;
+  border-top:1px solid var(--linha);
+}
+.dado{flex:1 1 150px; padding:16px 22px 14px; border-right:1px solid var(--linha)}
+.dado:first-child{padding-left:0}
+.dado:last-child{border-right:0}
+.dado dt{
+  font-family:"JetBrains Mono",ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--mudo-fraco); margin:0 0 6px;
+}
+.dado dd{
+  margin:0; font-family:"Bricolage Grotesque",ui-sans-serif,sans-serif; font-weight:700;
+  font-size:clamp(20px,2.6vw,26px); letter-spacing:-.015em;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── grade ─────────────────────────────────────────────────────────────── */
+.secao{padding-block:clamp(40px,6vw,68px) clamp(56px,9vw,110px)}
+.cabecalho-secao{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:26px}
+.cabecalho-secao h2{
+  font-family:"Bricolage Grotesque",ui-sans-serif,sans-serif; font-weight:700;
+  font-size:clamp(19px,2.2vw,23px); letter-spacing:-.018em; margin:0;
+}
+.nota{
+  font-family:"JetBrains Mono",ui-monospace,monospace; font-size:11.5px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--mudo-fraco); margin:0;
+}
+.grade{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(16px,2.2vw,26px)}
+@media (max-width:960px){ .grade{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:600px){
+  .grade{grid-template-columns:minmax(0,1fr)}
+  /* no toque o alvo minimo e' 44 px: a barra cresce, o video nao muda */
+  .botao{width:44px; height:44px}
+  .barra{gap:4px; padding:10px 8px 12px}
+  .trilha{height:34px}
+}
+
+.peca{
+  display:flex; flex-direction:column; min-width:0;
+  background:var(--painel); border:1px solid var(--linha); border-radius:6px;
+  overflow:hidden; transition:border-color .22s var(--som), background-color .22s var(--som);
+}
+.peca:hover,.peca:focus-within{border-color:var(--linha-viva); background:var(--painel-alto)}
+
+/* ── palco do player ───────────────────────────────────────────────────── */
+.palco{
+  position:relative; aspect-ratio:9/16; background:var(--fosso);
+  cursor:pointer; overflow:hidden; isolation:isolate;
+}
+.palco video{width:100%; height:100%; object-fit:cover; background:var(--fosso)}
+.palco img.capa{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  z-index:var(--z-capa); opacity:1; transition:opacity .3s var(--som), transform .5s var(--som);
+}
+.peca:hover .palco img.capa{transform:scale(1.025)}
+.palco[data-estado="tocando"] img.capa,
+.palco[data-estado="pausado"] img.capa{opacity:0; pointer-events:none}
+/* véu de baixo: dá contraste para a barra sem escurecer o quadro inteiro */
+.veu{
+  position:absolute; inset:auto 0 0 0; height:44%; z-index:var(--z-barra); pointer-events:none;
+  background:linear-gradient(to top, rgba(3,8,7,.88), rgba(3,8,7,.45) 42%, transparent);
+  opacity:0; transition:opacity .25s var(--som);
+}
+.palco[data-estado="parado"] .veu,
+.palco[data-estado="pausado"] .veu,
+.peca:hover .veu,
+.peca:focus-within .veu{opacity:1}
+
+/* botão grande de play — some enquanto toca */
+.tocar-grande{
+  position:absolute; inset:0; z-index:var(--z-topo);
+  display:grid; place-items:center; width:100%;
+  transition:opacity .22s var(--som);
+}
+.tocar-grande .disco{
+  width:66px; height:66px; border-radius:50%;
+  background:rgba(6,14,13,.58); border:1.5px solid rgba(240,237,226,.5);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  display:grid; place-items:center;
+  transition:background-color .22s var(--som), border-color .22s var(--som), box-shadow .22s var(--som);
+}
+.tocar-grande svg{width:24px; height:24px; margin-left:3px; fill:var(--creme)}
+.peca:hover .tocar-grande .disco{
+  background:var(--onda); border-color:var(--onda);
+  box-shadow:0 0 0 8px rgba(95,214,206,.14);
+}
+.peca:hover .tocar-grande svg{fill:#052120}
+.palco[data-estado="tocando"] .tocar-grande{opacity:0; pointer-events:none}
+
+/* rodela de carregamento */
+.rodela{
+  position:absolute; inset:0; z-index:var(--z-topo); display:none; place-items:center;
+  background:rgba(3,8,7,.35);
+}
+.palco[data-carregando="sim"] .rodela{display:grid}
+.palco[data-carregando="sim"] .tocar-grande{opacity:0}
+.rodela span{
+  width:30px; height:30px; border-radius:50%;
+  border:2px solid rgba(240,237,226,.25); border-top-color:var(--onda);
+  animation:girar .8s linear infinite;
+}
+@keyframes girar{to{transform:rotate(360deg)}}
+
+/* barra de controle */
+.barra{
+  position:absolute; inset:auto 0 0 0; z-index:var(--z-topo);
+  display:flex; align-items:center; gap:10px; padding:10px 11px 11px;
+  opacity:0; transform:translateY(6px);
+  transition:opacity .22s var(--som), transform .22s var(--som);
+}
+.palco[data-estado="pausado"] .barra,
+.peca:hover .barra,
+.peca:focus-within .barra{opacity:1; transform:none}
+.botao{
+  flex:none; width:36px; height:36px; border-radius:3px;
+  display:grid; place-items:center;
+  transition:background-color .18s var(--som);
+}
+.botao:hover{background:rgba(240,237,226,.12)}
+.botao svg{width:17px; height:17px; fill:var(--creme); pointer-events:none}
+.botao .pausa,.palco[data-estado="tocando"] .botao .play{display:none}
+.palco[data-estado="tocando"] .botao .pausa{display:block}
+.botao .mudo-sim{display:none}
+.palco[data-mudo="sim"] .botao .mudo-nao{display:none}
+.palco[data-mudo="sim"] .botao .mudo-sim{display:block}
+
+.trilha{
+  flex:1 1 auto; min-width:0; height:24px; position:relative; cursor:pointer;
+  display:flex; align-items:center; touch-action:none;
+}
+.trilha::before{
+  content:""; position:absolute; inset-inline:0; height:3px; border-radius:2px;
+  background:rgba(240,237,226,.24);
+}
+.buffer,.preenche{position:absolute; left:0; height:3px; border-radius:2px}
+.buffer{background:rgba(240,237,226,.34); width:0}
+.preenche{background:var(--onda); width:0}
+.bolinha{
+  position:absolute; width:11px; height:11px; border-radius:50%; background:var(--onda);
+  left:0; margin-left:-5.5px; opacity:0; transition:opacity .18s var(--som);
+}
+.trilha:hover .bolinha,.trilha:focus-visible .bolinha,.palco[data-estado="pausado"] .bolinha{opacity:1}
+.relogio{
+  flex:none; font-family:"JetBrains Mono",ui-monospace,monospace; font-size:11.5px;
+  font-variant-numeric:tabular-nums; color:var(--creme); letter-spacing:.01em;
+}
+
+/* ── texto do cartão ───────────────────────────────────────────────────── */
+.ficha{padding:15px 16px 17px; display:flex; flex-direction:column; gap:9px; flex:1}
+.fala{
+  font-family:"Bricolage Grotesque",ui-sans-serif,sans-serif; font-weight:500;
+  font-size:16px; line-height:1.34; letter-spacing:-.012em; margin:0; color:var(--creme);
+  text-wrap:pretty;
+}
+.fala::before{content:"\201C"; color:var(--onda); margin-right:1px}
+.fala::after{content:"\201D"; color:var(--onda); margin-left:1px}
+.rodape-ficha{
+  margin:auto 0 0; display:flex; flex-wrap:wrap; align-items:center; gap:7px;
+  font-family:"JetBrains Mono",ui-monospace,monospace; font-size:11px;
+  color:var(--mudo-fraco); font-variant-numeric:tabular-nums;
+}
+.rodape-ficha .cena{color:var(--mudo)}
+.rodape-ficha .risco{color:var(--linha-viva)}
+
+/* ── rodapé ────────────────────────────────────────────────────────────── */
+.rodape{border-top:1px solid var(--linha); padding-block:34px 56px}
+.rodape .env{display:flex; align-items:center; gap:18px; flex-wrap:wrap; justify-content:space-between}
+.assinatura{display:flex; align-items:center; gap:13px}
+.assinatura img{width:52px; height:auto}
+.assinatura p{margin:0; font-family:"Bricolage Grotesque",sans-serif; font-weight:700;
+  font-size:15px; letter-spacing:-.012em}
+.assinatura small{display:block; font-family:"JetBrains Mono",monospace; font-size:10.5px;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--mudo-fraco); font-weight:400}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important;
+    transition-duration:.01ms !important}
+  .peca:hover .palco img.capa{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="env">
+    <div class="marca">
+      <img class="mark" src="assets/logo-ow.webp" width="640" height="552"
+           alt="Organic Wave" fetchpriority="high">
+      <div class="dizeres">
+        <p class="etiqueta">Organic Wave &middot; Video Studio</p>
+        <h1>Doze peças.<br>Nenhuma delas<br><em>foi filmada.</em></h1>
+        <p class="linha-fina">Vídeo vertical para short-form, gerado do zero: elenco, cenário,
+          câmera e locução. Clique em qualquer quadro para assistir com som.</p>
+      </div>
+    </div>
+
+    <dl class="trilho">
+      <div class="dado"><dt>Peças</dt><dd>12</dd></div>
+      <div class="dado"><dt>Duração total</dt><dd>5 min 04 s</dd></div>
+      <div class="dado"><dt>Formato</dt><dd>9:16</dd></div>
+      <div class="dado"><dt>Áudio</dt><dd>Original</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="secao">
+  <div class="env">
+    <div class="cabecalho-secao">
+      <h2>A grade</h2>
+      <p class="nota">Toca uma por vez &middot; som ligado</p>
+    </div>
+
+    <div class="grade">
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/l05-aqpwrl-wdbca7xtm8vrc1ik-fiw00e-y2wkzm7fa-3.jpg"
+                 src="v/l05-aqpwrl-wdbca7xtm8vrc1ik-fiw00e-y2wkzm7fa-3.mp4"
+                 aria-label="This is what baking soda does to your belly"></video>
+          <img class="capa" src="p/l05-aqpwrl-wdbca7xtm8vrc1ik-fiw00e-y2wkzm7fa-3.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: This is what baking soda does to your belly">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">This is what baking soda does to your belly.</p>
+          <p class="rodape-ficha"><span class="cena">Cozinha</span><span class="risco">/</span>0:29<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline poster="p/final-b.jpg" src="v/final-b.mp4"
+                 aria-label="This is what baking soda does to 20 years of belly fat"></video>
+          <img class="capa" src="p/final-b.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: This is what baking soda does to 20 years of belly fat">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">This is what baking soda does to 20 years of belly fat.</p>
+          <p class="rodape-ficha"><span class="cena">Consultório</span><span class="risco">/</span>0:26<span class="risco">/</span>540&times;960</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/l06-aqnvljwerub5c4eppt7ligq7oqokzg2pndfb19mo-6.jpg"
+                 src="v/l06-aqnvljwerub5c4eppt7ligq7oqokzg2pndfb19mo-6.mp4"
+                 aria-label="If you have a belly like this and want to look like this before summer"></video>
+          <img class="capa" src="p/l06-aqnvljwerub5c4eppt7ligq7oqokzg2pndfb19mo-6.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: If you have a belly like this and want to look like this before summer">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">If you have a belly like this and want to look like this before summer.</p>
+          <p class="rodape-ficha"><span class="cena">Celeiro</span><span class="risco">/</span>0:20<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/l05-aqner-rdozyeerrear5nroh2mqx7k61dw-cnmng4-5.jpg"
+                 src="v/l05-aqner-rdozyeerrear5nroh2mqx7k61dw-cnmng4-5.mp4"
+                 aria-label="Oh my God, you look terrible like this"></video>
+          <img class="capa" src="p/l05-aqner-rdozyeerrear5nroh2mqx7k61dw-cnmng4-5.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: Oh my God, you look terrible like this">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">Oh my God, you look terrible like this.</p>
+          <p class="rodape-ficha"><span class="cena">Academia</span><span class="risco">/</span>0:21<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/l07-159-848-likes-2-4k-comments-954b4.jpg"
+                 src="v/l07-159-848-likes-2-4k-comments-954b4.mp4"
+                 aria-label="Every damn day people are asking me the exact same question"></video>
+          <img class="capa" src="p/l07-159-848-likes-2-4k-comments-954b4.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: Every damn day people are asking me the exact same question">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">Every damn day people are asking me the exact same question.</p>
+          <p class="rodape-ficha"><span class="cena">Sala</span><span class="risco">/</span>0:33<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/whatsapp-video-2026-09-21-at-07-06-49.jpg"
+                 src="v/whatsapp-video-2026-09-21-at-07-06-49.mp4"
+                 aria-label="This woman has been carrying this for 20 years"></video>
+          <img class="capa" src="p/whatsapp-video-2026-09-21-at-07-06-49.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: This woman has been carrying this for 20 years">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">This woman has been carrying this for 20 years.</p>
+          <p class="rodape-ficha"><span class="cena">Fazenda</span><span class="risco">/</span>0:24<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/l02-970-likes-1-5k-comments-c818d.jpg"
+                 src="v/l02-970-likes-1-5k-comments-c818d.mp4"
+                 aria-label="Do you have a belly like this and you want it looking like this for summer?"></video>
+          <img class="capa" src="p/l02-970-likes-1-5k-comments-c818d.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: Do you have a belly like this and you want it looking like this for summer?">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">Do you have a belly like this and you want it looking like this for summer?</p>
+          <p class="rodape-ficha"><span class="cena">Clínica</span><span class="risco">/</span>0:31<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline poster="p/final-a.jpg" src="v/final-a.mp4"
+                 aria-label="This is what baking soda pulls out of your gut in only 10 days"></video>
+          <img class="capa" src="p/final-a.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: This is what baking soda pulls out of your gut in only 10 days">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">This is what baking soda pulls out of your gut in only 10 days.</p>
+          <p class="rodape-ficha"><span class="cena">Consultório</span><span class="risco">/</span>0:26<span class="risco">/</span>540&times;960</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/l05-aqmqnihjtihwvubn30c7msdty8g5dbjbsv7hqvjv-8.jpg"
+                 src="v/l05-aqmqnihjtihwvubn30c7msdty8g5dbjbsv7hqvjv-8.mp4"
+                 aria-label="This is what baking soda does"></video>
+          <img class="capa" src="p/l05-aqmqnihjtihwvubn30c7msdty8g5dbjbsv7hqvjv-8.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: This is what baking soda does">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">This is what baking soda does.</p>
+          <p class="rodape-ficha"><span class="cena">Biblioteca</span><span class="risco">/</span>0:25<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/l05-aqpnuylwgusyo6jyjmba21utfeioufknon3zu4m7-e.jpg"
+                 src="v/l05-aqpnuylwgusyo6jyjmba21utfeioufknon3zu4m7-e.mp4"
+                 aria-label="Look at the size of this chunk coming out of her belly"></video>
+          <img class="capa" src="p/l05-aqpnuylwgusyo6jyjmba21utfeioufknon3zu4m7-e.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: Look at the size of this chunk coming out of her belly">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">Look at the size of this chunk coming out of her belly.</p>
+          <p class="rodape-ficha"><span class="cena">Escritório</span><span class="risco">/</span>0:25<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/l06-complexos-fdownloader-net-aqp-b-3umdgy-n-4.jpg"
+                 src="v/l06-complexos-fdownloader-net-aqp-b-3umdgy-n-4.mp4"
+                 aria-label="Ladies, watch what happens when I pour baking soda right on her belly"></video>
+          <img class="capa" src="p/l06-complexos-fdownloader-net-aqp-b-3umdgy-n-4.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: Ladies, watch what happens when I pour baking soda right on her belly">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">Ladies, watch what happens when I pour baking soda right on her belly.</p>
+          <p class="rodape-ficha"><span class="cena">Garagem</span><span class="risco">/</span>0:22<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+      <article class="peca">
+        <div class="palco" data-estado="parado" data-mudo="nao">
+          <video preload="none" playsinline
+                 poster="p/whatsapp-video-2026-09-18-at-22-45-25-corte.jpg"
+                 src="v/whatsapp-video-2026-09-18-at-22-45-25-corte.mp4"
+                 aria-label="This was my father six months ago, struggling with obesity and beer belly"></video>
+          <img class="capa" src="p/whatsapp-video-2026-09-18-at-22-45-25-corte.jpg" alt="" loading="lazy" decoding="async">
+          <div class="veu" aria-hidden="true"></div>
+          <div class="rodela" aria-hidden="true"><span></span></div>
+          <button class="tocar-grande" type="button" aria-label="Assistir: This was my father six months ago, struggling with obesity and beer belly">
+            <span class="disco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+          <div class="barra"></div>
+        </div>
+        <div class="ficha">
+          <p class="fala">This was my father six months ago, struggling with obesity and beer belly.</p>
+          <p class="rodape-ficha"><span class="cena">Quintal</span><span class="risco">/</span>0:17<span class="risco">/</span>720&times;1280</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</main>
+
+<footer class="rodape">
+  <div class="env">
+    <div class="assinatura">
+      <img src="assets/logo-ow.webp" width="640" height="552" alt="" loading="lazy">
+      <p>Organic Wave Studio<small>Portfólio &middot; 2026</small></p>
+    </div>
+    <p class="nota">Vídeo vertical &middot; 9:16 &middot; pronto para publicar</p>
+  </div>
+</footer>
+
+<template id="molde-barra">
+  <button class="botao alternar" type="button" aria-label="Tocar">
+    <svg class="play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+  <div class="trilha" role="slider" tabindex="0" aria-label="Posição do vídeo"
+       aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0 por cento">
+    <span class="buffer"></span><span class="preenche"></span><span class="bolinha"></span>
+  </div>
+  <span class="relogio">0:00</span>
+  <button class="botao som" type="button" aria-label="Tirar o som">
+    <svg class="mudo-nao" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 2v2.1a7.5 7.5 0 0 1 0 15.8V22a9.5 9.5 0 0 0 0-20z"/></svg>
+    <svg class="mudo-sim" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm18.3-1.3-1.4-1.4L17 9.2l-2.9-2.9-1.4 1.4L15.6 10.6l-2.9 2.9 1.4 1.4 2.9-2.9 2.9 2.9 1.4-1.4-2.9-2.9 2.9-2.9z"/></svg>
+  </button>
+  <button class="botao cheia" type="button" aria-label="Tela cheia">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5v2H6v3H4zm11-5h5v5h-2V6h-3V4zM4 15h2v3h3v2H4v-5zm14 0h2v5h-5v-2h3v-3z"/></svg>
+  </button>
+</template>
+
+<script>
+(function () {
+  "use strict";
+
+  var molde = document.getElementById("molde-barra");
+  var tocandoAgora = null;
+
+  function relogiar(s) {
+    if (!isFinite(s) || s < 0) s = 0;
+    var m = Math.floor(s / 60), r = Math.floor(s % 60);
+    return m + ":" + (r < 10 ? "0" : "") + r;
+  }
+
+  document.querySelectorAll(".peca").forEach(function (peca) {
+    var palco = peca.querySelector(".palco");
+    var video = peca.querySelector("video");
+    var grande = peca.querySelector(".tocar-grande");
+    var barra = peca.querySelector(".barra");
+    barra.appendChild(molde.content.cloneNode(true));
+
+    var alternar = barra.querySelector(".alternar");
+    var trilha = barra.querySelector(".trilha");
+    var buffer = barra.querySelector(".buffer");
+    var preenche = barra.querySelector(".preenche");
+    var bolinha = barra.querySelector(".bolinha");
+    var relogio = barra.querySelector(".relogio");
+    var som = barra.querySelector(".som");
+    var cheia = barra.querySelector(".cheia");
+    var arrastando = false;
+
+    // ⛔ A grade tem doze vídeos: dois tocando ao mesmo tempo viram barulho.
+    // Quem começa a tocar cala todos os outros — inclusive o que estava fora da tela.
+    function assumir() {
+      if (tocandoAgora && tocandoAgora !== video) tocandoAgora.pause();
+      tocandoAgora = video;
+    }
+
+    function tocar() {
+      assumir();
+      var p = video.play();
+      if (p && p.catch) p.catch(function () { palco.dataset.carregando = "nao"; });
+    }
+
+    function alterna() { video.paused ? tocar() : video.pause(); }
+
+    grande.addEventListener("click", function (e) { e.stopPropagation(); tocar(); });
+    alternar.addEventListener("click", function (e) { e.stopPropagation(); alterna(); });
+    palco.addEventListener("click", function (e) {
+      if (e.target.closest(".barra") || e.target.closest(".tocar-grande")) return;
+      alterna();
+    });
+
+    som.addEventListener("click", function (e) {
+      e.stopPropagation();
+      video.muted = !video.muted;
+      palco.dataset.mudo = video.muted ? "sim" : "nao";
+      som.setAttribute("aria-label", video.muted ? "Ligar o som" : "Tirar o som");
+    });
+
+    cheia.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (document.fullscreenElement) { document.exitFullscreen(); return; }
+      // ⭐ tela cheia no PALCO, não no <video>: assim a nossa barra vai junto.
+      var pedir = palco.requestFullscreen || palco.webkitRequestFullscreen;
+      if (pedir) pedir.call(palco);
+      else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();  // iPhone
+    });
+
+    video.addEventListener("play", function () {
+      assumir();
+      palco.dataset.estado = "tocando";
+      alternar.setAttribute("aria-label", "Pausar");
+    });
+    video.addEventListener("pause", function () {
+      if (!video.ended) palco.dataset.estado = "pausado";
+      alternar.setAttribute("aria-label", "Tocar");
+    });
+    video.addEventListener("ended", function () {
+      palco.dataset.estado = "parado";
+      video.currentTime = 0;
+      pintar();
+    });
+    video.addEventListener("waiting", function () { palco.dataset.carregando = "sim"; });
+    ["playing", "canplay", "error", "pause"].forEach(function (ev) {
+      video.addEventListener(ev, function () { palco.dataset.carregando = "nao"; });
+    });
+
+    function pintar() {
+      var d = video.duration;
+      var pc = (isFinite(d) && d > 0) ? (video.currentTime / d) * 100 : 0;
+      preenche.style.width = pc + "%";
+      bolinha.style.left = pc + "%";
+      trilha.setAttribute("aria-valuenow", Math.round(pc));
+      trilha.setAttribute("aria-valuetext", relogiar(video.currentTime) + " de " + relogiar(d));
+      relogio.textContent = relogiar(video.currentTime) + (isFinite(d) ? " / " + relogiar(d) : "");
+      if (video.buffered.length) {
+        var fim = video.buffered.end(video.buffered.length - 1);
+        buffer.style.width = (isFinite(d) && d > 0 ? (fim / d) * 100 : 0) + "%";
+      }
+    }
+    video.addEventListener("timeupdate", pintar);
+    video.addEventListener("loadedmetadata", pintar);
+    video.addEventListener("progress", pintar);
+
+    function buscarEm(clientX) {
+      var r = trilha.getBoundingClientRect();
+      var f = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+      if (isFinite(video.duration)) { video.currentTime = f * video.duration; pintar(); }
+    }
+    trilha.addEventListener("pointerdown", function (e) {
+      e.stopPropagation(); arrastando = true;
+      trilha.setPointerCapture(e.pointerId); buscarEm(e.clientX);
+    });
+    trilha.addEventListener("pointermove", function (e) { if (arrastando) buscarEm(e.clientX); });
+    trilha.addEventListener("pointerup", function (e) {
+      arrastando = false;
+      try { trilha.releasePointerCapture(e.pointerId); } catch (x) {}
+    });
+    trilha.addEventListener("click", function (e) { e.stopPropagation(); });
+
+    // teclado: a trilha é um slider de verdade, e o cartão inteiro responde a espaço/K/M/F
+    trilha.addEventListener("keydown", function (e) {
+      var passo = (e.key === "PageUp" || e.key === "PageDown") ? 10 : 5;
+      if (e.key === "ArrowRight" || e.key === "PageUp") { video.currentTime += passo; }
+      else if (e.key === "ArrowLeft" || e.key === "PageDown") { video.currentTime -= passo; }
+      else if (e.key === "Home") { video.currentTime = 0; }
+      else if (e.key === "End" && isFinite(video.duration)) { video.currentTime = video.duration; }
+      else return;
+      e.preventDefault(); pintar();
+    });
+    peca.addEventListener("keydown", function (e) {
+      if (e.target.closest(".trilha") && e.key !== "m" && e.key !== "f") return;
+      if (e.key === " " || e.key === "k") { e.preventDefault(); alterna(); }
+      else if (e.key === "m") { e.preventDefault(); som.click(); }
+      else if (e.key === "f") { e.preventDefault(); cheia.click(); }
+    });
+
+    pintar();
+  });
+
+  // vídeo que sai da tela não continua falando sozinho
+  if ("IntersectionObserver" in window) {
+    var olho = new IntersectionObserver(function (itens) {
+      itens.forEach(function (i) {
+        if (!i.isIntersecting) {
+          var v = i.target.querySelector("video");
+          if (v && !v.paused) v.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll(".peca").forEach(function (p) { olho.observe(p); });
+  }
+})();
+</script>
+</body>
+</html>
