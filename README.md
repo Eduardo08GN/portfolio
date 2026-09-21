@@ -4,18 +4,28 @@ Página única com as doze peças escolhidas do estúdio. Vídeo vertical 9:16, 
 inline próprio, tema escuro. É o template `preview-inline-player` da ferramenta,
 levado ao nível de vitrine pública.
 
+> **Veio colar este bloco numa outra página?** O arquivo é
+> **[INCORPORAR.md](INCORPORAR.md)** — o que copiar, o que não mudar e por quê.
+> O bloco é recortável e blindado: colado em qualquer landing, não mexe numa linha
+> do estilo de quem recebe. A prova está em
+> [`teste-em-landing-hostil.html`](teste-em-landing-hostil.html).
+
 **No ar:** ver o domínio da aplicação `ow-portfolio` no Coolify.
 
 ## O que tem aqui
 
 ```
-index.html      a página inteira — HTML, CSS e JS num arquivo só, sem build
-assets/         o mark da marca (webp servido; png é o master do upscale 4×)
-p/              as capas (poster de cada vídeo, 540 px de largura, JPEG)
-Dockerfile      nginx alpine servindo estático
-nginx.conf      cache e gzip
-subir-r2.py     sobe os mp4 para o bucket e reaponta a página
-_manifesto.json o que foi medido de cada vídeo (duração, dimensão, tamanho)
+index.html                     a página inteira, sem build; o bloco recortável
+                               está entre OW:INICIO e OW:FIM DO TRECHO
+INCORPORAR.md                  como colar o bloco noutra página
+CLAUDE.md                      o mapa, para o agente que abrir o repositório
+teste-em-landing-hostil.html   o bloco dentro de uma landing agressiva (a prova)
+assets/                        o master do logotipo (o servido está no R2)
+p/                             os masters das capas (as servidas estão no R2)
+Dockerfile                     nginx alpine servindo estático
+nginx.conf                     cache e gzip
+subir-r2.py                    sobe mídia para o bucket e reaponta a página
+_manifesto.json                o medido de cada vídeo (duração, dimensão, tamanho)
 ```
 
 ## Onde ficam os vídeos
@@ -24,9 +34,12 @@ _manifesto.json o que foi medido de cada vídeo (duração, dimensão, tamanho)
 servidos direto de `https://pub-a64ff07a02a446df8b492d42e886c18b.r2.dev/v/`.
 O repositório carrega só a página, o logotipo e as doze capas — cerca de 1 MB.
 
-As capas ficaram aqui de propósito: são 600 KB no total e é o que faz a grade
-pintar junto com o HTML, na mesma conexão. Mandá-las para o bucket trocaria isso
-por doze viagens a um segundo domínio, sem ganho nenhum.
+As capas e o logotipo também estão no bucket — e isso mudou de ideia por um
+motivo: enquanto a página era só nossa, servi-las daqui era mais rápido. A partir
+do momento em que o bloco passou a ser **recortável para outra landing**, caminho
+relativo vira 404 no domínio de quem recebe: a grade abriria com doze quadros
+pretos e sem marca. Os masters continuam versionados aqui; o que vai para o ar é
+o que está no bucket.
 
 Para trocar ou acrescentar vídeo:
 

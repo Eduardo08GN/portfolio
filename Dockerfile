@@ -5,6 +5,8 @@ FROM nginx:1.27-alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY index.html /usr/share/nginx/html/index.html
+# a prova de que o bloco nao vaza, aberta no navegador de quem for enxertar
+COPY teste-em-landing-hostil.html /usr/share/nginx/html/teste-em-landing-hostil.html
 COPY assets/    /usr/share/nginx/html/assets/
 COPY p/         /usr/share/nginx/html/p/
 # os mp4 NAO entram na imagem: moram no bucket R2 `portfolioow` e sao servidos
