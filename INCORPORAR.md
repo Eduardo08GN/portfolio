@@ -45,7 +45,7 @@ Os doze vídeos, as doze capas e o logotipo estão num bucket Cloudflare R2 púb
 https://pub-a64ff07a02a446df8b492d42e886c18b.r2.dev/
   v/*.mp4          os doze vídeos (720×1280 e 540×960, H.264 + AAC)
   p/*.jpg          as doze capas
-  assets/logo-ow.webp   a marca
+  (a marca agora e' a da AutomaWeb: https://automaweb.pro/AutomaWeb_favicon.png)
 ```
 
 As URLs já estão absolutas dentro do trecho: **funciona em qualquer domínio, sem
